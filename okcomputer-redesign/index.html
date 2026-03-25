@@ -186,15 +186,34 @@ hr{border:none;border-top:1px solid var(--border-subtle);margin:64px 0;}
 <section id="brief">
   <div class="hero">
     <h1>The AI that thinks with you,<br>not just for you.</h1>
-    <p>Redesigning okCOMPUTER — from 4 fragmented surfaces to a single morphing interface. HUD, panel, and notifications become one continuous shape.</p>
+    <p>A comprehensive redesign of the okCOMPUTER desktop experience. We audited 183 issues across the current app and are restructuring the entire surface architecture, user journey, and onboarding flow.</p>
   </div>
-  <div class="co co-p" style="margin-bottom:20px;">
-    <strong>Core Architecture:</strong> The HUD and panel are one window. The pill morphs into the full panel — pill → card → panel. Clicking the HUD or tray icon expands it. The notification window is eliminated.
+
+  <div class="co co-p" style="margin-bottom:28px;">
+    <strong>What changed and why:</strong> okCOMPUTER v0.6.4 has four separate UI surfaces — HUD overlay, tray popover, main window, and notification toasts — that feel like four different apps. Users don't know where to look. The same information (voice results, TTS controls, recording state) appears in multiple surfaces simultaneously. The onboarding teaches button mechanics instead of product value, and there's no coherent journey from sign-up through progressive feature discovery.<br><br>
+    <strong>The redesign:</strong> We're collapsing to two surfaces. The HUD and panel become a single morphing window — pill → card → full panel — that serves as the always-present entry point ("the dock"). The notification window is eliminated entirely. A new RPG-style "Build Your Chief of Staff" onboarding replaces the mechanical permissions wizard. Features unlock progressively through usage, not time.
   </div>
-  <div class="grid-3" style="margin-bottom:20px;">
-    <div class="card"><div class="card-header">Problem</div><div class="card-body" style="font-size:12px;color:var(--text-secondary);line-height:1.6;">4 fragmented surfaces. 183 audited issues. Users don't know where to look. Same info in multiple places. Onboarding teaches mechanics, not value.</div></div>
-    <div class="card"><div class="card-header">Solution</div><div class="card-body" style="font-size:12px;color:var(--text-secondary);line-height:1.6;">2 surfaces: HUD/Panel (one morphing window) + Main Window. RPG "Build Your Chief of Staff" onboarding. Progressive feature disclosure.</div></div>
-    <div class="card"><div class="card-header">Surfaces</div><div class="card-body" style="font-size:12px;color:var(--text-secondary);line-height:1.6;"><strong>HUD/Panel</strong> — The Dock. Always present. Morphs from pill to full panel.<br><strong>Main Window</strong> — The Workspace. Deep content. Opens explicitly.</div></div>
+
+  <div class="grid-3" style="margin-bottom:28px;">
+    <div class="card">
+      <div class="card-header">Problem</div>
+      <div class="card-body" style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+        <strong>4 fragmented surfaces</strong> with overlapping information. 183 documented issues (7 critical, 38 high). Voice results displayed in both HUD and notification simultaneously. TTS controls duplicated. 5-tab popover where Home duplicates all other tabs. Onboarding forces users through 3 dictation modes before proceeding — never mentions meeting recording, the primary use case.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">Solution</div>
+      <div class="card-body" style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+        <strong>2 surfaces</strong> with clear roles. The HUD morphs into the panel as one continuous window — clicking or hovering expands it. All notification types are absorbed. Onboarding becomes an RPG "build your agent" experience with a conversational interview. Features progressively unlock: Voice → Meetings → Agency → Proactive.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">New Architecture</div>
+      <div class="card-body" style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+        <strong>HUD/Panel</strong> — "The Dock." Always present on screen. A small pill that morphs into a full panel. Primary interface for real-time activity, controls, settings, and onboarding.<br><br>
+        <strong>Main Window</strong> — "The Workspace." Loads okwow.ai for deep content: full transcripts, chat threads, vault, insights. Opens only when the user explicitly navigates there from the panel.
+      </div>
+    </div>
   </div>
 </section>
 
@@ -202,16 +221,59 @@ hr{border:none;border-top:1px solid var(--border-subtle);margin:64px 0;}
 
 <section id="hud">
   <h2>HUD: The Dock</h2>
-  <p class="section-desc">5 states. One continuous shape. Screen-share protected.</p>
-  <div class="grid-5" style="margin-bottom:16px;">
-    <div class="card"><div class="card-header">Dormant</div><div class="card-body" style="min-height:70px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px;"><div style="width:44px;height:4px;background:var(--text-muted);border-radius:9999px;"></div></div></div>
-    <div class="card"><div class="card-header">Idle</div><div class="card-body" style="min-height:70px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px;"><div class="pill"><div class="dot dot-green"></div>okCOMPUTER</div></div></div>
-    <div class="card"><div class="card-header">Active</div><div class="card-body" style="min-height:70px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px;"><div class="pill" style="background:rgba(184,126,254,0.12);"><div style="display:flex;gap:2px;align-items:flex-end;"><div style="width:2px;height:7px;background:var(--violet);border-radius:1px;"></div><div style="width:2px;height:12px;background:var(--violet);border-radius:1px;"></div><div style="width:2px;height:5px;background:var(--violet);border-radius:1px;"></div><div style="width:2px;height:10px;background:var(--violet);border-radius:1px;"></div></div>Listening...</div></div></div>
-    <div class="card"><div class="card-header">Expanded</div><div class="card-body" style="min-height:70px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;"><div style="background:var(--pill-bg);border-radius:10px;padding:8px;width:100%;font-size:10px;color:var(--pill-text);box-shadow:var(--elevation-glass);"><div style="opacity:.4;font-size:9px;margin-bottom:2px;">Indi</div>Created PR #247...<div style="margin-top:3px;font-size:9px;color:var(--blue);opacity:.5;">Open conversation →</div></div></div></div>
-    <div class="card"><div class="card-header">Recording</div><div class="card-body" style="min-height:70px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px;"><div class="pill" style="background:rgba(237,102,100,0.1);"><div class="dot dot-red pulse"></div>Recording · 12:34</div></div></div>
+  <p class="section-desc" style="max-width:700px;line-height:1.7;">The HUD is a small floating element anchored to the bottom of the screen. It's always visible while the user works in other apps. It has 5 states that it transitions between based on what's happening — from a barely-visible dormant bar to a fully expanded content panel. The entire element is one continuous shape that morphs between states (pill → card → panel). It's hidden from screen share via macOS content protection.</p>
+
+  <div class="grid-5" style="margin-bottom:24px;">
+    <div class="card">
+      <div class="card-header">Dormant</div>
+      <div class="card-body" style="min-height:80px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px;">
+        <div style="width:44px;height:4px;background:var(--text-muted);border-radius:9999px;"></div>
+      </div>
+      <div style="padding:8px 14px;font-size:11px;color:var(--text-tertiary);line-height:1.5;border-top:1px solid var(--border-subtle);">
+        <strong style="color:var(--text-secondary);">Default state (95% of time).</strong> Barely visible bar. Click-through for all mouse events except the pill itself. User is working in other apps undisturbed.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">Idle (Hover)</div>
+      <div class="card-body" style="min-height:80px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px;">
+        <div class="pill"><div class="dot dot-green"></div>okCOMPUTER</div>
+      </div>
+      <div style="padding:8px 14px;font-size:11px;color:var(--text-tertiary);line-height:1.5;border-top:1px solid var(--border-subtle);">
+        <strong style="color:var(--text-secondary);">Triggered by hovering over the dormant pill.</strong> Shows agent avatar and name. Interactive — click expands to full panel, double-click opens main window. Collapses after 300ms when mouse leaves.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">Active</div>
+      <div class="card-body" style="min-height:80px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px;">
+        <div class="pill" style="background:rgba(184,126,254,0.12);"><div style="display:flex;gap:2px;align-items:flex-end;"><div style="width:2px;height:7px;background:var(--violet);border-radius:1px;"></div><div style="width:2px;height:12px;background:var(--violet);border-radius:1px;"></div><div style="width:2px;height:5px;background:var(--violet);border-radius:1px;"></div><div style="width:2px;height:10px;background:var(--violet);border-radius:1px;"></div></div>Listening...</div>
+      </div>
+      <div style="padding:8px 14px;font-size:11px;color:var(--text-tertiary);line-height:1.5;border-top:1px solid var(--border-subtle);">
+        <strong style="color:var(--text-secondary);">Triggered by user action.</strong> Fn key held (dictation waveform), AI processing (thinking dots), or tool execution (service icons). Background areas remain click-through.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">Expanded</div>
+      <div class="card-body" style="min-height:80px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;">
+        <div style="background:var(--pill-bg);border-radius:10px;padding:8px;width:100%;font-size:10px;color:var(--pill-text);box-shadow:var(--elevation-glass);"><div style="opacity:.4;font-size:9px;margin-bottom:2px;">Indi</div>Created PR #247...<div style="margin-top:3px;font-size:9px;color:var(--blue);opacity:.5;">Open conversation →</div></div>
+      </div>
+      <div style="padding:8px 14px;font-size:11px;color:var(--text-tertiary);line-height:1.5;border-top:1px solid var(--border-subtle);">
+        <strong style="color:var(--text-secondary);">Triggered when content needs to be shown.</strong> AI response, approval request, proactive suggestion, or TTS playback. The pill morphs into a content card. Fully interactive. Auto-collapses after 30s (hover resets timer).
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">Recording</div>
+      <div class="card-body" style="min-height:80px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px;">
+        <div class="pill" style="background:rgba(237,102,100,0.1);"><div class="dot dot-red pulse"></div>Recording · 12:34</div>
+      </div>
+      <div style="padding:8px 14px;font-size:11px;color:var(--text-tertiary);line-height:1.5;border-top:1px solid var(--border-subtle);">
+        <strong style="color:var(--text-secondary);">Persistent while a meeting is being recorded.</strong> Coexists with all other states — if the AI responds during recording, the expanded card shows with the red recording badge. Click expands to show pause/stop controls.
+      </div>
+    </div>
   </div>
+
   <h3>Status Messages</h3>
-  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">
+  <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:12px;line-height:1.6;">The dormant pill isn't just an indicator bar — it shows contextual status text that changes based on what's happening. The colored dot and message give the user ambient awareness without expanding the HUD.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;">
     <div class="pill"><div class="dot dot-green"></div>okCOMPUTER</div>
     <div class="pill"><div class="dot dot-amber pulse"></div>Meeting in 2 min</div>
     <div class="pill" style="background:rgba(237,102,100,0.1);"><div class="dot dot-red pulse"></div>Recording · 12:34</div>
@@ -229,7 +291,8 @@ hr{border:none;border-top:1px solid var(--border-subtle);margin:64px 0;}
 
 <section id="panel">
   <h2>Panel States</h2>
-  <p class="section-desc">The HUD fully expanded. Contextual sections. Every object links to the app.</p>
+  <p class="section-desc" style="max-width:700px;line-height:1.7;">When the user clicks the HUD pill or the tray icon, the HUD morphs into its full panel view. This is the same window expanding — not a separate popover. The panel content changes based on context: default shows upcoming meetings and recent activity, after a voice command it shows the conversation, and when a meeting is detected it shows an attention card. Quick actions (Record, Note, Chat) are always pinned to the bottom.</p>
+  <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:20px;line-height:1.6;">The current 5-tab popover (Home, Meetings, Notes, Voice, Computer) is replaced by this single scrollable view with contextual sections that appear and disappear based on state. Every item in the panel is a link to the main app — meetings open the meeting detail, notes open the vault, commands open the conversation thread.</p>
   <div class="grid-3">
     <div class="mp"><div class="card-header">Default</div><div class="mp-body" style="display:flex;flex-direction:column;min-height:500px;"><div class="mp-hdr"><div class="mp-brand"><div class="mp-av">🧠</div>Indi</div><span style="color:var(--text-muted);font-size:11px;">⚙</span></div><div style="margin-bottom:6px;"><div class="sl">Upcoming</div><div class="uc"><div class="uc-t">2:00p</div><div style="flex:1;">Team Standup</div></div><div class="uc"><div class="uc-t">4:30p</div><div style="flex:1;">Design Review</div></div></div><div class="mp-div"></div><div style="flex:1;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;"><div class="sl" style="margin:0;">Recent</div><div class="mp-chips"><span class="chip chip-on">All</span><span class="chip chip-off">Meetings</span><span class="chip chip-off">Notes</span><span class="chip chip-off">Computer</span></div></div><div class="mp-item"><div class="mp-row"><span>Sprint Planning</span><span style="font-size:9px;color:var(--text-muted);">2h ago</span></div><div class="mp-meta">Meeting · 45m · synced</div><div class="mp-hover">Open in app →</div></div><div class="mp-item"><div class="mp-row"><span>"Check API rate limits..."</span><span style="font-size:9px;color:var(--text-muted);">3h ago</span></div><div class="mp-meta">Voice note</div><div class="mp-hover">Open in vault →</div></div><div class="mp-item"><div class="mp-row"><span>"Create PR for auth fix"</span><span style="font-size:9px;color:var(--text-muted);">4h ago</span></div><div class="mp-meta">Command · completed</div><div class="mp-hover">Open conversation →</div></div></div><div style="padding:3px 0;border-top:1px solid var(--border-subtle);margin-top:4px;"><div class="sr"><span class="kbd">fn</span>Dictate</div><div class="sr"><span class="kbd">fn</span><span class="kbd">⇧</span>Voice note</div><div class="sr"><span class="kbd">fn</span><span class="kbd">⎵</span>Ask</div></div><div class="qa"><div class="qa-btn qa-rec">🎙 Record</div><div class="qa-btn qa-note">📝 Note</div><div class="qa-btn qa-chat">💬 Chat</div></div></div></div>
 
@@ -243,7 +306,8 @@ hr{border:none;border-top:1px solid var(--border-subtle);margin:64px 0;}
 
 <section id="recording">
   <h2>Recording State</h2>
-  <p class="section-desc">Two full-width tabs: Meeting + Insights. Scratchpad fixed at bottom. Hidden from screen share.</p>
+  <p class="section-desc" style="max-width:700px;line-height:1.7;">When a meeting recording starts, the panel transforms entirely into a focused recording view. The default sections (upcoming, recent, quick actions) are replaced by two full-width tabs: "Meeting" for the live transcript and scratchpad, and "Insights" for proactive vault suggestions and detected action items. A purple dot appears on the Insights tab when new insights arrive.</p>
+  <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:20px;line-height:1.6;">The panel is hidden from screen share participants via macOS content protection. A "Hidden from screen share" indicator is shown at the bottom. Pause and Stop buttons are equal-sized at the bottom of both tabs. The button is Pause (stops all transcription), not Mute — muting is platform-specific and doesn't control the Recall SDK audio capture. The panel can be minimized via the (—) button; when minimized, the HUD pill shows "Recording · 12:34" and clicking it reopens the panel. An upcoming meeting alert appears at the top when the next meeting is within 5 minutes.</p>
   <div class="grid-2">
     <div class="mp"><div class="card-header" style="color:var(--red);">Meeting Tab</div><div class="mp-body" style="display:flex;flex-direction:column;min-height:500px;"><div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:5px;"><div><div style="font-weight:600;font-size:11px;">Team Standup</div><div style="font-size:9px;color:var(--text-muted);">Zoom · 3 participants · 12:34</div></div><div class="rec-b"><div class="dot dot-red pulse"></div>REC</div></div><div class="mp-tabs"><div class="mp-tab mp-tab-on">Meeting</div><div class="mp-tab">Insights<div class="tab-dot"></div></div></div><div style="background:rgba(245,189,30,0.04);border:1px solid rgba(245,189,30,0.08);border-radius:6px;padding:4px 7px;margin:5px -12px 3px;display:flex;align-items:center;gap:4px;font-size:10px;"><div class="dot dot-amber pulse"></div><span style="color:var(--text-secondary);"><strong>Design Review</strong> in 2 min</span></div><div style="flex:1;overflow:auto;padding:3px 0;"><div class="tl"><div class="tl-s">Sarah</div><div class="tl-t">The deploy went smoothly yesterday.</div></div><div class="tl"><div class="tl-s">Mike</div><div class="tl-t">I'll move on to the API migration. Backward compat is key.</div></div><div class="tl"><div class="tl-s">You</div><div class="tl-t">Can we do the migration in stages?</div></div><div class="tl"><div class="tl-s" style="color:var(--blue);">Sarah</div><div class="tl-t" style="opacity:.4;font-style:italic;">That makes sense. I'll draft a—</div></div></div><div class="sp"><div class="sp-l">Scratchpad</div><textarea class="sp-i" readonly>- Ask Sarah about phase 1 timeline
 - Check platform team capacity</textarea></div><div style="display:flex;gap:4px;padding-top:5px;border-top:1px solid var(--border-subtle);margin-top:3px;"><div class="qa-btn" style="background:var(--bg-muted);border:1px solid var(--border);">⏸ Pause</div><div class="qa-btn qa-stop">⏹ Stop</div></div><div class="prv">👁‍🗨 Hidden from screen share</div></div></div>
@@ -256,7 +320,9 @@ hr{border:none;border-top:1px solid var(--border-subtle);margin:64px 0;}
 
 <section id="onboarding">
   <h2>Onboarding: Build Your Chief of Staff</h2>
-  <p class="section-desc">RPG-style agent creation → conversational interview → guided first action. HUD expands into panel.</p>
+  <p class="section-desc" style="max-width:700px;line-height:1.7;">The current onboarding is a 3-step permissions wizard that teaches mechanics ("hold Fn to dictate") but never shows value. Users are forced to try all 3 dictation modes before proceeding. Meeting recording — the primary use case — isn't mentioned. After completing onboarding, the user lands on an empty Home tab with no guidance.</p>
+  <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:12px;line-height:1.6;">The new onboarding is an RPG-style "build your character" experience. The user creates their AI chief of staff — choosing name, avatar, communication preference (voice or text), their role, and work style. Permissions are requested in parallel as "agent setup" with human explanations ("Microphone — so you can record meetings and take voice notes"). While permissions grant, keyboard shortcuts are taught as they become available.</p>
+  <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:20px;line-height:1.6;">After creation, the agent conducts a conversational interview following the Indi v7.0 principles: it researches the user first, opens with genuine curiosity (not "how can I help?"), and follows the user's thread through 3-5 turns. This is skippable — context builds gradually through usage instead. The interview is available via voice (hold Fn) or text. After the interview, the agent guides the user to a first real action — not "you're set" but "let's build/explore/think through something together." The main app window never opens during onboarding; that's earned when the user clicks something that needs the full workspace.</p>
   <div class="grid-3">
     <div class="mp"><div class="card-header">Step 1: Build Your Agent</div><div class="mp-body" style="min-height:500px;"><div style="text-align:center;padding:10px 0;"><div style="font-size:14px;font-weight:600;">Build your chief of staff</div><div style="font-size:11px;color:var(--text-muted);">The AI that thinks with you, not just for you</div></div><div style="margin-bottom:8px;"><div style="font-size:9px;color:var(--text-muted);margin-bottom:3px;">Choose an avatar</div><div class="avr"><div class="avo" style="background:rgba(184,126,254,0.08);">🤖</div><div class="avo avo-sel" style="background:rgba(101,160,253,0.08);">🧠</div><div class="avo" style="background:rgba(102,220,126,0.08);">⚡</div><div class="avo" style="background:rgba(245,189,30,0.08);">🎯</div><div class="avo" style="background:var(--bg-muted);font-size:10px;color:var(--text-muted);">+</div></div><div style="font-size:9px;color:var(--text-muted);">Upload your own · Generate with AI</div></div><div style="margin-bottom:6px;"><div style="font-size:9px;color:var(--text-muted);margin-bottom:2px;">Name</div><div style="background:var(--bg-subtle);border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:11px;color:var(--text-secondary);">Indi</div></div><div style="margin-bottom:6px;"><div style="font-size:9px;color:var(--text-muted);margin-bottom:2px;">Communication</div><div style="display:flex;gap:3px;"><div style="flex:1;padding:5px;background:rgba(184,126,254,0.05);border:1px solid rgba(184,126,254,0.12);border-radius:8px;text-align:center;font-size:10px;">🎤 Voice</div><div style="flex:1;padding:5px;background:var(--bg-subtle);border:1px solid var(--border);border-radius:8px;text-align:center;font-size:10px;color:var(--text-muted);">⌨ Text</div></div></div><div style="margin-bottom:6px;"><div style="font-size:9px;color:var(--text-muted);margin-bottom:2px;">Your role</div><div style="background:var(--bg-subtle);border:1px solid var(--border);border-radius:8px;padding:5px 8px;font-size:11px;color:var(--text-secondary);">Founder / CEO</div></div><div style="margin-bottom:10px;"><div style="font-size:9px;color:var(--text-muted);margin-bottom:2px;">Your day</div><div style="display:flex;gap:3px;"><div style="flex:1;padding:5px;background:rgba(237,102,100,0.04);border:1px solid rgba(237,102,100,0.1);border-radius:8px;text-align:center;font-size:10px;">Meetings</div><div style="flex:1;padding:5px;background:var(--bg-subtle);border:1px solid var(--border);border-radius:8px;text-align:center;font-size:10px;color:var(--text-muted);">Deep work</div><div style="flex:1;padding:5px;background:var(--bg-subtle);border:1px solid var(--border);border-radius:8px;text-align:center;font-size:10px;color:var(--text-muted);">Mix</div></div></div><div style="text-align:center;"><div style="display:inline-block;padding:7px 24px;background:var(--nav-active-bg);color:var(--nav-active-text);border-radius:9999px;font-size:11px;font-weight:490;">Create</div></div></div></div>
 
@@ -270,7 +336,7 @@ hr{border:none;border-top:1px solid var(--border-subtle);margin:64px 0;}
 
 <section id="progressive">
   <h2>Progressive Disclosure</h2>
-  <p class="section-desc">Features unlock based on usage. Tiers are implicit — no UI announcing unlocks.</p>
+  <p class="section-desc" style="max-width:700px;line-height:1.7;">okCOMPUTER has a deep feature set — recording, transcription, AI summaries, dictation, voice commands, computer use, permission tiers, vocabulary, shortcuts, style rules. Showing all of this on first launch is overwhelming. Instead, features unlock based on usage, not time. Tiers are implicit — the UI never announces "you unlocked tier 3." The agent introduces capabilities when they become relevant. A "Skip — Unlock Everything" bypass is always available for power users.</p>
   <div class="arc">
     <div class="arc-i" style="background:rgba(184,126,254,0.05);"><div class="arc-e">🗣</div><div class="arc-t">Meet your voice</div><div class="arc-s">After setup</div></div>
     <div class="arc-i" style="background:rgba(101,160,253,0.05);"><div class="arc-e">🧠</div><div class="arc-t">Build memory</div><div class="arc-s">Tier 1–2</div></div>
