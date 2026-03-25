@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>okCOMPUTER Redesign — Design Screens</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; color: #e5e5e5; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; padding: 32px 40px; max-width: 1400px; margin: 0 auto; }
+  h1 { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+  h2 { font-size: 20px; font-weight: 600; margin-top: 48px; margin-bottom: 4px; }
+  h3 { font-size: 15px; font-weight: 600; margin-top: 28px; margin-bottom: 8px; }
+  .subtitle { font-size: 14px; opacity: 0.4; margin-bottom: 24px; }
+  .section-intro { font-size: 13px; opacity: 0.5; line-height: 1.7; margin-bottom: 20px; max-width: 700px; }
+  hr { border: none; border-top: 1px solid #222; margin: 48px 0; }
+
+  /* Layout */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 20px; }
+
+  /* Panel mockups */
+  .panel { background: #141414; border: 1px solid #222; border-radius: 12px; overflow: hidden; font-size: 11px; }
+  .panel-label { background: #1a1a1a; padding: 6px 12px; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.4; border-bottom: 1px solid #222; }
+  .panel-body { padding: 12px; }
+
+  /* Common elements */
+  .pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 9999px; font-size: 10px; }
+  .dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .dot-green { background: #22c55e; }
+  .dot-red { background: #ef4444; }
+  .dot-amber { background: #f59e0b; }
+  .dot-purple { background: #8b5cf6; }
+  .dot-blue { background: #3b82f6; }
+
+  .card { padding: 6px 8px; background: rgba(255,255,255,0.03); border-radius: 6px; margin-bottom: 4px; font-size: 10px; }
+  .card-row { display: flex; justify-content: space-between; align-items: center; }
+  .card-meta { font-size: 9px; opacity: 0.3; margin-top: 1px; }
+  .card-time { font-size: 9px; opacity: 0.3; }
+  .card-hover { font-size: 8px; color: #60a5fa; opacity: 0.4; margin-top: 2px; }
+
+  .btn-sm { font-size: 9px; padding: 3px 8px; border-radius: 4px; display: inline-block; }
+  .btn-red { background: #ef4444; color: white; }
+  .btn-ghost { background: rgba(255,255,255,0.06); opacity: 0.5; }
+  .btn-purple { background: rgba(139,92,246,0.15); color: #c4b5fd; }
+
+  .section-label { font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.3; margin-bottom: 4px; }
+  .section-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 8px 0; }
+
+  .header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 8px; }
+  .brand { font-weight: 600; font-size: 12px; display: flex; align-items: center; gap: 6px; }
+  .avatar-sm { width: 18px; height: 18px; border-radius: 50%; background: rgba(59,130,246,0.15); display: flex; align-items: center; justify-content: center; font-size: 9px; }
+
+  .tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.08); margin: 0 -12px; padding: 0 12px; }
+  .tab { flex: 1; text-align: center; padding: 7px 0; font-size: 10px; cursor: pointer; position: relative; opacity: 0.35; }
+  .tab-active { opacity: 0.9; }
+  .tab-active::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: #e5e5e5; border-radius: 1px 1px 0 0; }
+  .tab-dot { position: absolute; top: 3px; right: calc(50% - 22px); width: 5px; height: 5px; border-radius: 50%; background: #8b5cf6; }
+
+  .quick-actions { display: flex; gap: 4px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .qa-btn { flex: 1; padding: 7px 4px; border-radius: 7px; text-align: center; font-size: 9px; font-weight: 500; }
+  .qa-record { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.12); }
+  .qa-note { background: rgba(59,130,246,0.06); border: 1px solid rgba(59,130,246,0.12); }
+  .qa-ask { background: rgba(139,92,246,0.06); border: 1px solid rgba(139,92,246,0.12); }
+  .qa-stop { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.25); color: #fca5a5; }
+
+  .kbd { display: inline-block; font-size: 8px; padding: 1px 4px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); border-radius: 3px; font-family: monospace; opacity: 0.5; }
+
+  .chat-msg { padding: 6px 10px; border-radius: 10px; margin-bottom: 4px; max-width: 85%; font-size: 10px; line-height: 1.4; }
+  .chat-agent { background: rgba(139,92,246,0.08); border-top-left-radius: 3px; }
+  .chat-user { background: rgba(255,255,255,0.06); margin-left: auto; border-top-right-radius: 3px; }
+
+  .transcript-line { padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
+  .transcript-speaker { font-size: 8px; font-weight: 600; opacity: 0.4; }
+  .transcript-text { font-size: 10px; opacity: 0.6; line-height: 1.4; }
+
+  .insight-card { background: rgba(139,92,246,0.05); border: 1px solid rgba(139,92,246,0.1); border-radius: 6px; padding: 6px 8px; margin-bottom: 4px; font-size: 10px; }
+  .insight-type { font-size: 7px; text-transform: uppercase; letter-spacing: 0.5px; color: #a78bfa; opacity: 0.6; margin-bottom: 1px; }
+
+  .attention { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.12); border-radius: 6px; padding: 6px 8px; margin-bottom: 6px; }
+
+  .decision-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 12px; }
+  .decision-table th { text-align: left; padding: 8px 12px; background: #1a1a1a; font-weight: 500; opacity: 0.6; }
+  .decision-table td { padding: 8px 12px; border-bottom: 1px solid #1a1a1a; }
+  .decision-table td:first-child { font-weight: 500; }
+  .decision-table td:last-child { opacity: 0.5; }
+
+  .callout { padding: 14px; border-radius: 10px; font-size: 12px; line-height: 1.6; margin: 16px 0; }
+  .callout-purple { background: rgba(139,92,246,0.06); border: 1px solid rgba(139,92,246,0.15); }
+  .callout-red { background: rgba(239,68,68,0.04); border: 1px solid rgba(239,68,68,0.12); }
+  .callout-green { background: rgba(16,185,129,0.04); border: 1px solid rgba(16,185,129,0.12); }
+
+  .filter-chips { display: flex; gap: 3px; }
+  .chip { font-size: 8px; padding: 1px 5px; border-radius: 3px; }
+  .chip-active { background: rgba(255,255,255,0.08); opacity: 0.6; }
+  .chip-inactive { opacity: 0.2; }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .pulse { animation: pulse 1.5s infinite; }
+
+  .upcoming-card { display: flex; align-items: center; gap: 6px; padding: 5px 8px; background: rgba(255,255,255,0.03); border-radius: 5px; margin-bottom: 3px; font-size: 10px; }
+  .upcoming-time { font-size: 9px; font-weight: 600; opacity: 0.5; min-width: 40px; }
+
+  .scratchpad { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 4px; margin-top: 4px; }
+  .scratchpad-label { font-size: 7px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.2; margin-bottom: 2px; }
+  .scratchpad-input { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 5px; padding: 5px 7px; font-size: 9px; width: 100%; min-height: 36px; color: #e5e5e5; opacity: 0.5; font-family: inherit; resize: none; outline: none; }
+
+  .shortcut-row { display: flex; align-items: center; gap: 5px; padding: 2px 0; opacity: 0.35; font-size: 9px; }
+
+  .rec-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 6px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); border-radius: 9999px; font-size: 8px; color: #fca5a5; }
+
+  .minimize-btn { width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border-radius: 3px; opacity: 0.3; font-size: 9px; }
+
+  .avatar-row { display: flex; gap: 6px; margin: 6px 0; }
+  .avatar-option { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; border: 2px solid transparent; }
+  .avatar-selected { border-color: #8b5cf6; }
+</style>
+</head>
+<body>
+
+<!-- ================================== -->
+<!-- HEADER -->
+<!-- ================================== -->
+<h1>okCOMPUTER Redesign</h1>
+<p class="subtitle">Design Screens & Decision Log — March 2026</p>
+
+<div class="callout callout-purple">
+  <strong>Core Architecture Change:</strong> The HUD and panel are <strong>one continuous surface</strong>. The HUD pill transforms/morphs into the full panel view. Pill → card → full panel. One window that scales. Clicking the HUD expands it into the panel. The tray icon also triggers the same expansion. There is no separate "popover window" — the HUD IS the panel when expanded.
+</div>
+
+<hr>
+
+<!-- ================================== -->
+<!-- 1. HUD STATES -->
+<!-- ================================== -->
+<h2>1. HUD: The Dock — State Machine</h2>
+<p class="section-intro">The HUD has 5 primary states. It's always present, morphs between pill and full panel as one continuous shape. No separate overlay — the pill BECOMES the content.</p>
+
+<div class="grid-5">
+  <!-- Dormant -->
+  <div class="panel">
+    <div class="panel-label">Dormant</div>
+    <div class="panel-body" style="min-height: 100px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 16px;">
+      <div style="width: 48px; height: 5px; background: rgba(255,255,255,0.1); border-radius: 9999px;"></div>
+    </div>
+  </div>
+
+  <!-- Idle -->
+  <div class="panel">
+    <div class="panel-label">Idle (hover)</div>
+    <div class="panel-body" style="min-height: 100px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 16px;">
+      <div class="pill">
+        <div class="dot dot-green"></div>
+        <span style="opacity: 0.5;">okCOMPUTER</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Active -->
+  <div class="panel">
+    <div class="panel-label">Active (listening)</div>
+    <div class="panel-body" style="min-height: 100px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 16px;">
+      <div class="pill" style="border-color: rgba(139,92,246,0.2); background: rgba(139,92,246,0.08);">
+        <div style="display: flex; gap: 2px; align-items: flex-end;">
+          <div style="width: 2px; height: 8px; background: #a78bfa; border-radius: 1px;"></div>
+          <div style="width: 2px; height: 14px; background: #a78bfa; border-radius: 1px;"></div>
+          <div style="width: 2px; height: 6px; background: #a78bfa; border-radius: 1px;"></div>
+          <div style="width: 2px; height: 12px; background: #a78bfa; border-radius: 1px;"></div>
+        </div>
+        <span style="opacity: 0.5;">Listening...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Expanded -->
+  <div class="panel">
+    <div class="panel-label">Expanded (response)</div>
+    <div class="panel-body" style="min-height: 100px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px;">
+      <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 8px; width: 100%; font-size: 9px;">
+        <div style="opacity: 0.3; margin-bottom: 3px;">Indi</div>
+        <div style="opacity: 0.6; line-height: 1.4;">Done! Created PR #247 on staging branch...</div>
+        <div style="display: flex; gap: 3px; margin-top: 4px;">
+          <span class="btn-sm btn-ghost" style="font-size: 8px;">Open conversation →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recording -->
+  <div class="panel">
+    <div class="panel-label">Recording</div>
+    <div class="panel-body" style="min-height: 100px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 16px;">
+      <div class="pill" style="border-color: rgba(239,68,68,0.2); background: rgba(239,68,68,0.06);">
+        <div class="dot dot-red pulse"></div>
+        <span style="opacity: 0.5;">Recording · 12:34</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Status messages -->
+<h3>HUD Pill: Contextual Status Messages</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+  <div class="pill"><div class="dot dot-green"></div><span style="opacity:0.5">okCOMPUTER</span></div>
+  <div class="pill"><div class="dot dot-amber pulse"></div><span style="opacity:0.5">Meeting in 2 min</span></div>
+  <div class="pill" style="border-color:rgba(239,68,68,0.2);background:rgba(239,68,68,0.06)"><div class="dot dot-red pulse"></div><span style="opacity:0.5">Recording · 12:34</span></div>
+  <div class="pill"><div class="dot dot-purple"></div><span style="opacity:0.5">Thinking...</span></div>
+  <div class="pill"><div class="dot dot-purple"></div><span style="opacity:0.5">Adding note...</span></div>
+  <div class="pill"><div class="dot dot-green"></div><span style="opacity:0.5">Note saved ✓</span></div>
+  <div class="pill"><div class="dot dot-purple"></div><span style="opacity:0.5">Processing request...</span></div>
+  <div class="pill" style="border-color:rgba(239,68,68,0.15)"><div class="dot dot-red"></div><span style="opacity:0.5;color:#fca5a5">Failed — tap to retry</span></div>
+</div>
+
+<!-- Click interactions -->
+<h3>Click Interactions</h3>
+<table class="decision-table">
+  <tr><th>State</th><th>Single Click</th><th>Double Click</th><th>Long Press</th></tr>
+  <tr><td>Dormant</td><td>Re-show last content or expand to panel</td><td>Open main window</td><td>Reposition mode</td></tr>
+  <tr><td>Idle (hover)</td><td>Expand to full panel</td><td>Open main window</td><td>Reposition mode</td></tr>
+  <tr><td>Active</td><td>Click-through (except pill)</td><td>—</td><td>—</td></tr>
+  <tr><td>Expanded</td><td>Interact with content</td><td>—</td><td>—</td></tr>
+  <tr><td>Recording</td><td>Expand to show controls</td><td>Open main window</td><td>Reposition mode</td></tr>
+</table>
+
+<hr>
+
+<!-- ================================== -->
+<!-- 2. PANEL STATES -->
+<!-- ================================== -->
+<h2>2. Panel States — The HUD Fully Expanded</h2>
+<p class="section-intro">When the HUD expands to full panel, it shows contextual content based on what's happening. The panel is the HUD — same window, scaled up. Tray icon click also triggers this expansion.</p>
+
+<div class="grid-3">
+
+  <!-- Default -->
+  <div class="panel">
+    <div class="panel-label">Default State</div>
+    <div class="panel-body" style="display: flex; flex-direction: column; min-height: 440px;">
+      <div class="header">
+        <div class="brand"><div class="avatar-sm">🧠</div> Indi</div>
+        <span style="opacity: 0.3; font-size: 11px;">⚙</span>
+      </div>
+
+      <div style="margin-bottom: 6px;">
+        <div class="section-label">Upcoming</div>
+        <div class="upcoming-card">
+          <div class="upcoming-time">2:00p</div>
+          <div style="flex:1;">Team Standup</div>
+          <span style="font-size:8px;opacity:0.3;">Open →</span>
+        </div>
+        <div class="upcoming-card">
+          <div class="upcoming-time">4:30p</div>
+          <div style="flex:1;">Design Review</div>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div style="flex: 1;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <div class="section-label" style="margin:0;">Recent</div>
+          <div class="filter-chips">
+            <span class="chip chip-active">All</span>
+            <span class="chip chip-inactive">Meetings</span>
+            <span class="chip chip-inactive">Notes</span>
+            <span class="chip chip-inactive">Commands</span>
+          </div>
+        </div>
+        <div class="card"><div class="card-row"><span>Sprint Planning</span><span class="card-time">2h ago</span></div><div class="card-meta">Meeting · 45m · synced</div><div class="card-hover">Open in app →</div></div>
+        <div class="card"><div class="card-row"><span>"Check API rate limits..."</span><span class="card-time">3h ago</span></div><div class="card-meta">Voice note</div><div class="card-hover">Open in vault →</div></div>
+        <div class="card"><div class="card-row"><span>"Create PR for auth fix"</span><span class="card-time">4h ago</span></div><div class="card-meta">Command · completed</div><div class="card-hover">Open conversation →</div></div>
+      </div>
+
+      <div style="padding: 4px 0; border-top: 1px solid rgba(255,255,255,0.04); margin-top: 4px;">
+        <div class="shortcut-row"><span class="kbd">fn</span> Dictate</div>
+        <div class="shortcut-row"><span class="kbd">fn</span><span class="kbd">⇧</span> Voice note</div>
+        <div class="shortcut-row"><span class="kbd">fn</span><span class="kbd">⎵</span> Ask</div>
+      </div>
+
+      <div class="quick-actions">
+        <div class="qa-btn qa-record">🎙 Record</div>
+        <div class="qa-btn qa-note">📝 Note</div>
+        <div class="qa-btn qa-ask">💬 Chat</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- After Voice Command -->
+  <div class="panel">
+    <div class="panel-label" style="color: #8b5cf6;">After Voice Command</div>
+    <div class="panel-body" style="display: flex; flex-direction: column; min-height: 440px;">
+      <div class="header">
+        <div class="brand"><div class="avatar-sm">🧠</div> Indi</div>
+        <span style="opacity: 0.3; font-size: 11px;">⚙</span>
+      </div>
+
+      <div style="background: rgba(59,130,246,0.05); border: 1px solid rgba(59,130,246,0.1); border-radius: 6px; padding: 8px; margin-bottom: 6px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <div style="font-size:8px;opacity:0.3;">Latest conversation</div>
+          <span class="btn-sm" style="background:rgba(59,130,246,0.1);color:#60a5fa;font-size:8px;">Open conversation →</span>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border-radius:4px;padding:5px;margin-bottom:3px;">
+          <div style="font-size:8px;opacity:0.3;">You asked</div>
+          <div style="font-size:10px;opacity:0.7;">"Create a PR for the auth fix"</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border-radius:4px;padding:5px;">
+          <div style="font-size:8px;opacity:0.3;">Indi</div>
+          <div style="font-size:10px;opacity:0.7;">Done! Created PR #247 "Fix auth token refresh"</div>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div style="flex: 1;">
+        <div class="section-label">Recent</div>
+        <div class="card" style="border-left: 2px solid #8b5cf6;"><div class="card-row"><span>"Create PR for auth fix"</span><span class="card-time">just now</span></div><div class="card-meta">Command · completed</div></div>
+        <div class="card"><div class="card-row"><span>Sprint Planning</span><span class="card-time">2h ago</span></div><div class="card-meta">Meeting · 45m</div></div>
+      </div>
+
+      <div style="padding: 4px 0; border-top: 1px solid rgba(255,255,255,0.04);">
+        <div class="shortcut-row"><span class="kbd">fn</span><span class="kbd">⎵</span> Ask follow-up</div>
+      </div>
+
+      <div class="quick-actions">
+        <div class="qa-btn qa-record">🎙 Record</div>
+        <div class="qa-btn qa-note">📝 Note</div>
+        <div class="qa-btn qa-ask">💬 Chat</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Attention Item -->
+  <div class="panel">
+    <div class="panel-label" style="color: #f59e0b;">Meeting Detected</div>
+    <div class="panel-body" style="display: flex; flex-direction: column; min-height: 440px;">
+      <div class="header">
+        <div class="brand"><div class="avatar-sm">🧠</div> Indi</div>
+        <span style="opacity: 0.3; font-size: 11px;">⚙</span>
+      </div>
+
+      <div class="attention">
+        <div style="font-size:8px;text-transform:uppercase;letter-spacing:0.5px;color:#f59e0b;opacity:0.6;margin-bottom:3px;">Needs attention</div>
+        <div style="font-size:10px;opacity:0.7;">Meeting detected: "Team Standup" on Zoom</div>
+        <div style="display:flex;gap:4px;margin-top:5px;">
+          <span class="btn-sm btn-red">🎙 Record</span>
+          <span class="btn-sm btn-ghost">Dismiss</span>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div style="flex: 1;">
+        <div class="section-label">Upcoming</div>
+        <div class="upcoming-card">
+          <div class="upcoming-time">4:30p</div>
+          <div style="flex:1;">Design Review</div>
+        </div>
+        <div class="section-divider"></div>
+        <div class="section-label">Recent</div>
+        <div class="card"><div class="card-row"><span>Sprint Planning</span><span class="card-time">2h ago</span></div><div class="card-meta">Meeting · 45m</div></div>
+      </div>
+
+      <div class="quick-actions">
+        <div class="qa-btn qa-record">🎙 Record</div>
+        <div class="qa-btn qa-note">📝 Note</div>
+        <div class="qa-btn qa-ask">💬 Chat</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<hr>
+
+<!-- ================================== -->
+<!-- 3. RECORDING STATE -->
+<!-- ================================== -->
+<h2>3. Recording State</h2>
+<p class="section-intro">During recording, the panel transforms entirely. Two full-width tabs: Meeting (transcript + scratchpad) and Insights. Pause + Stop at bottom. Hidden from screen share.</p>
+
+<div class="grid-2">
+
+  <!-- Meeting tab -->
+  <div class="panel">
+    <div class="panel-label" style="color: #ef4444;">Meeting Tab</div>
+    <div class="panel-body" style="display: flex; flex-direction: column; min-height: 440px;">
+      <div class="header">
+        <div><div style="font-weight:600;font-size:11px;">Team Standup</div><div style="font-size:8px;opacity:0.3;">Zoom · 3 participants · 12:34</div></div>
+        <div style="display:flex;align-items:center;gap:4px;">
+          <div class="rec-badge"><div class="dot dot-red pulse"></div> REC</div>
+          <div class="minimize-btn">—</div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab tab-active">Meeting</div>
+        <div class="tab">Insights<div class="tab-dot"></div></div>
+      </div>
+
+      <div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.1);border-radius:5px;padding:4px 6px;margin:6px -12px 4px;display:flex;align-items:center;gap:5px;font-size:9px;">
+        <div class="dot dot-amber pulse"></div>
+        <span style="opacity:0.6;"><strong>Design Review</strong> in 2 minutes</span>
+      </div>
+
+      <div style="flex: 1; overflow: auto; padding: 4px 0;">
+        <div class="transcript-line"><div class="transcript-speaker">Sarah</div><div class="transcript-text">The deploy went smoothly yesterday. No issues reported.</div></div>
+        <div class="transcript-line"><div class="transcript-speaker">Mike</div><div class="transcript-text">Great. I'll move on to the API migration. We need to be careful about backward compatibility.</div></div>
+        <div class="transcript-line"><div class="transcript-speaker">You</div><div class="transcript-text">Can we do the migration in stages? Start with internal endpoints first.</div></div>
+        <div class="transcript-line"><div class="transcript-speaker">Sarah</div><div class="transcript-text">That makes sense. I'll draft a phased rollout plan.</div></div>
+        <div class="transcript-line"><div class="transcript-speaker" style="color:#60a5fa;">Mike</div><div class="transcript-text" style="opacity:0.3;font-style:italic;">I think the timeline for phase one should be—</div></div>
+      </div>
+
+      <div class="scratchpad">
+        <div class="scratchpad-label">Scratchpad</div>
+        <textarea class="scratchpad-input" readonly>- Ask Sarah about phase 1 timeline
+- Check platform team capacity</textarea>
+      </div>
+
+      <div style="display:flex;gap:4px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.06);margin-top:4px;">
+        <div class="qa-btn" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">⏸ Pause</div>
+        <div class="qa-btn qa-stop">⏹ Stop</div>
+      </div>
+      <div style="font-size:7px;opacity:0.15;text-align:center;padding-top:3px;">👁‍🗨 Hidden from screen share</div>
+    </div>
+  </div>
+
+  <!-- Insights tab -->
+  <div class="panel">
+    <div class="panel-label" style="color: #8b5cf6;">Insights Tab</div>
+    <div class="panel-body" style="display: flex; flex-direction: column; min-height: 440px;">
+      <div class="header">
+        <div><div style="font-weight:600;font-size:11px;">Team Standup</div><div style="font-size:8px;opacity:0.3;">Zoom · 3 participants · 12:34</div></div>
+        <div style="display:flex;align-items:center;gap:4px;">
+          <div class="rec-badge"><div class="dot dot-red pulse"></div> REC</div>
+          <div class="minimize-btn">—</div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab">Meeting</div>
+        <div class="tab tab-active">Insights</div>
+      </div>
+
+      <div style="flex: 1; overflow: auto; padding: 8px 0;">
+        <div class="insight-card" style="border-left:2px solid #8b5cf6;">
+          <div class="insight-type">💡 Related document</div>
+          <div style="font-size:10px;opacity:0.7;">"API Migration Plan v2" — mentions rate limit endpoints Mike discussed</div>
+          <div style="font-size:8px;color:#60a5fa;opacity:0.4;margin-top:3px;">Open in vault →</div>
+        </div>
+        <div class="insight-card" style="border-left:2px solid #8b5cf6;">
+          <div class="insight-type">📌 Action item</div>
+          <div style="font-size:10px;opacity:0.7;">Sarah to draft phased rollout plan for API migration</div>
+          <div style="font-size:8px;color:#60a5fa;opacity:0.4;margin-top:3px;">Open in vault →</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-type">📌 Key moment</div>
+          <div style="font-size:10px;opacity:0.7;">Decision: phased migration, internal endpoints first, ~2 week timeline</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-type">💡 Related document</div>
+          <div style="font-size:10px;opacity:0.7;">"Platform Team Q2 Roadmap" — gateway ownership mentioned by Sarah</div>
+          <div style="font-size:8px;color:#60a5fa;opacity:0.4;margin-top:3px;">Open in vault →</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:4px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.06);margin-top:4px;">
+        <div class="qa-btn" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">⏸ Pause</div>
+        <div class="qa-btn qa-stop">⏹ Stop</div>
+      </div>
+      <div style="font-size:7px;opacity:0.15;text-align:center;padding-top:3px;">👁‍🗨 Hidden from screen share</div>
+    </div>
+  </div>
+
+</div>
+
+<hr>
+
+<!-- ================================== -->
+<!-- 4. ONBOARDING -->
+<!-- ================================== -->
+<h2>4. Onboarding: Build Your Chief of Staff</h2>
+<p class="section-intro">"The AI that thinks with you, not just for you." RPG-style agent creation → conversational interview → guided first action. The HUD expands into the panel for the entire onboarding flow.</p>
+
+<div class="grid-3">
+
+  <!-- Step 1: Agent Creation -->
+  <div class="panel">
+    <div class="panel-label">Step 1: Build Your Agent</div>
+    <div class="panel-body" style="min-height: 440px;">
+      <div style="text-align:center;padding:10px 0 12px;">
+        <div style="font-size:15px;font-weight:600;">Build your chief of staff</div>
+        <div style="font-size:10px;opacity:0.35;">The AI that thinks with you, not just for you</div>
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <div style="font-size:8px;opacity:0.3;margin-bottom:3px;">Choose an avatar</div>
+        <div class="avatar-row">
+          <div class="avatar-option" style="background:rgba(139,92,246,0.15);">🤖</div>
+          <div class="avatar-option avatar-selected" style="background:rgba(59,130,246,0.15);">🧠</div>
+          <div class="avatar-option" style="background:rgba(16,185,129,0.15);">⚡</div>
+          <div class="avatar-option" style="background:rgba(245,158,11,0.15);">🎯</div>
+          <div class="avatar-option" style="background:rgba(255,255,255,0.04);font-size:10px;opacity:0.3;">+</div>
+        </div>
+        <div style="font-size:7px;opacity:0.2;">Upload your own · Generate with AI</div>
+      </div>
+
+      <div style="margin-bottom:8px;">
+        <div style="font-size:8px;opacity:0.3;margin-bottom:3px;">Name</div>
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:5px;padding:5px 7px;font-size:10px;opacity:0.6;">Indi</div>
+      </div>
+
+      <div style="margin-bottom:8px;">
+        <div style="font-size:8px;opacity:0.3;margin-bottom:3px;">How should Indi communicate?</div>
+        <div style="display:flex;gap:4px;">
+          <div style="flex:1;padding:5px;background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.15);border-radius:5px;text-align:center;font-size:9px;">🎤 Voice</div>
+          <div style="flex:1;padding:5px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:5px;text-align:center;font-size:9px;opacity:0.4;">⌨ Text</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:8px;">
+        <div style="font-size:8px;opacity:0.3;margin-bottom:3px;">Your role</div>
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:5px;padding:5px 7px;font-size:10px;opacity:0.6;">Founder / CEO</div>
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <div style="font-size:8px;opacity:0.3;margin-bottom:3px;">What does your day look like?</div>
+        <div style="display:flex;gap:4px;">
+          <div style="flex:1;padding:5px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.1);border-radius:5px;text-align:center;font-size:9px;">Meetings</div>
+          <div style="flex:1;padding:5px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:5px;text-align:center;font-size:9px;opacity:0.4;">Deep work</div>
+          <div style="flex:1;padding:5px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:5px;text-align:center;font-size:9px;opacity:0.4;">Mix</div>
+        </div>
+      </div>
+
+      <div style="text-align:center;">
+        <div style="display:inline-block;padding:8px 28px;background:#8b5cf6;border-radius:8px;font-size:11px;font-weight:500;">Create</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 1b: Assembly (HUD shows progress) -->
+  <div class="panel">
+    <div class="panel-label">Step 1b: Agent Assembly</div>
+    <div class="panel-body" style="min-height: 440px;">
+      <div style="text-align:center;padding:16px 0;">
+        <div style="width:48px;height:48px;border-radius:50%;background:rgba(59,130,246,0.15);margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:24px;">🧠</div>
+        <div style="font-size:12px;font-weight:500;">Setting up Indi</div>
+        <div style="font-size:9px;opacity:0.3;">This takes a moment...</div>
+      </div>
+
+      <div style="padding:0 8px;">
+        <div style="font-size:9px;display:flex;align-items:center;gap:6px;padding:4px 0;"><span style="color:#22c55e;">✓</span><span style="opacity:0.6;">Microphone — <em>so you can record meetings and take voice notes</em></span></div>
+        <div style="font-size:9px;display:flex;align-items:center;gap:6px;padding:4px 0;"><span style="color:#22c55e;">✓</span><span style="opacity:0.6;">Speech Recognition — <em>so Indi can understand you</em></span></div>
+        <div style="font-size:9px;display:flex;align-items:center;gap:6px;padding:4px 0;"><span style="color:#22c55e;">✓</span><span style="opacity:0.6;">Accessibility — <em>so dictated text goes into your apps</em></span></div>
+        <div style="font-size:9px;display:flex;align-items:center;gap:6px;padding:4px 0;"><span style="opacity:0.3;">○</span><span style="opacity:0.3;">Google Calendar — <em>so Indi can prepare for your meetings</em></span></div>
+      </div>
+
+      <div class="section-divider" style="margin:12px 0;"></div>
+
+      <div style="font-size:9px;opacity:0.4;text-align:center;line-height:1.5;">
+        As permissions are granted:
+      </div>
+      <div style="padding:8px;">
+        <div style="font-size:9px;display:flex;align-items:center;gap:5px;padding:3px 0;opacity:0.5;"><span class="kbd">fn</span> Dictate — ready ✓</div>
+        <div style="font-size:9px;display:flex;align-items:center;gap:5px;padding:3px 0;opacity:0.5;"><span class="kbd">fn</span><span class="kbd">⇧</span> Voice note — ready ✓</div>
+        <div style="font-size:9px;display:flex;align-items:center;gap:5px;padding:3px 0;opacity:0.25;"><span class="kbd">fn</span><span class="kbd">⎵</span> Ask — waiting...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: Interview -->
+  <div class="panel">
+    <div class="panel-label">Step 2: The Interview</div>
+    <div class="panel-body" style="min-height: 440px; display: flex; flex-direction: column;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div class="avatar-sm">🧠</div>
+          <span style="font-size:11px;font-weight:500;">Indi</span>
+        </div>
+        <div style="font-size:7px;opacity:0.2;">Skip — I'll do this later →</div>
+      </div>
+
+      <div style="font-size:9px;opacity:0.3;text-align:center;padding:4px 0 8px;line-height:1.4;">For the first few days, I'll be learning how you work.<br/>The more we interact, the better I get.</div>
+
+      <div style="flex:1;display:flex;flex-direction:column;gap:5px;">
+        <div class="chat-agent">Hey. So you're building an AI workspace while running a company — when you switch between those modes, does the thinking actually change or does it blur?</div>
+        <div class="chat-user">It's more like context switching on steroids. Builder brain wants to solve the problem, CEO brain wants to know if it's the right problem.</div>
+        <div class="chat-agent">That's the tension. Do you have a way of deciding when to be in which mode, or does it just happen?</div>
+        <div class="chat-user">Honestly, calendar decides. Mornings are build time, afternoons are meetings.</div>
+        <div class="chat-agent">Got it — so mornings are where I should stay out of the way and help you focus, and afternoons are where I can help you prepare and capture. Makes sense.</div>
+      </div>
+
+      <div style="font-size:8px;opacity:0.3;padding:4px 0;">🎤 Hold <span class="kbd">fn</span> to respond by voice</div>
+
+      <div style="display:flex;gap:4px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.06);">
+        <input type="text" placeholder="Type a message..." style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:6px 8px;font-size:10px;color:#e5e5e5;outline:none;">
+        <div style="width:28px;height:28px;border-radius:6px;background:rgba(139,92,246,0.15);display:flex;align-items:center;justify-content:center;font-size:11px;">🎤</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<hr>
+
+<!-- ================================== -->
+<!-- 5. PROGRESSIVE DISCLOSURE -->
+<!-- ================================== -->
+<h2>5. Progressive Disclosure</h2>
+<p class="section-intro">Features unlock based on usage, not time. Tiers are implicit — no UI announcing unlocks. The agent introduces capabilities when relevant.</p>
+
+<div style="display: flex; gap: 2px; margin: 16px 0 24px;">
+  <div style="flex:1; padding: 14px; background: rgba(139,92,246,0.06); border-radius: 12px 0 0 12px; text-align: center;">
+    <div style="font-size: 20px; margin-bottom: 4px;">🗣</div>
+    <div style="font-size: 11px; font-weight: 600;">Meet your voice</div>
+    <div style="font-size: 9px; opacity: 0.3; margin-top: 2px;">Tier 1: After setup</div>
+    <div style="font-size: 8px; opacity: 0.2; margin-top: 4px;">Dictation, notes, commands</div>
+  </div>
+  <div style="flex:1; padding: 14px; background: rgba(59,130,246,0.06); text-align: center;">
+    <div style="font-size: 20px; margin-bottom: 4px;">🧠</div>
+    <div style="font-size: 11px; font-weight: 600;">Build memory</div>
+    <div style="font-size: 9px; opacity: 0.3; margin-top: 2px;">Tier 1-2</div>
+    <div style="font-size: 8px; opacity: 0.2; margin-top: 4px;">Vault fills, context grows</div>
+  </div>
+  <div style="flex:1; padding: 14px; background: rgba(239,68,68,0.06); text-align: center;">
+    <div style="font-size: 20px; margin-bottom: 4px;">🎙</div>
+    <div style="font-size: 11px; font-weight: 600;">Record conversations</div>
+    <div style="font-size: 9px; opacity: 0.3; margin-top: 2px;">Tier 2: Calendar connected</div>
+    <div style="font-size: 8px; opacity: 0.2; margin-top: 4px;">Transcript, insights, summaries</div>
+  </div>
+  <div style="flex:1; padding: 14px; background: rgba(245,158,11,0.06); text-align: center;">
+    <div style="font-size: 20px; margin-bottom: 4px;">⚡</div>
+    <div style="font-size: 11px; font-weight: 600;">Let it act</div>
+    <div style="font-size: 9px; opacity: 0.3; margin-top: 2px;">Tier 3: After 5+ commands</div>
+    <div style="font-size: 8px; opacity: 0.2; margin-top: 4px;">Tools, approvals, agency</div>
+  </div>
+  <div style="flex:1; padding: 14px; background: rgba(16,185,129,0.06); border-radius: 0 12px 12px 0; text-align: center;">
+    <div style="font-size: 20px; margin-bottom: 4px;">🔮</div>
+    <div style="font-size: 11px; font-weight: 600;">It anticipates you</div>
+    <div style="font-size: 9px; opacity: 0.3; margin-top: 2px;">Tier 4: Emerges</div>
+    <div style="font-size: 8px; opacity: 0.2; margin-top: 4px;">Proactive context surfacing</div>
+  </div>
+</div>
+
+<hr>
+
+<!-- ================================== -->
+<!-- 6. KEY DECISIONS -->
+<!-- ================================== -->
+<h2>6. Key Design Decisions</h2>
+
+<table class="decision-table">
+  <tr><th>Decision</th><th>Choice</th><th>Rationale</th></tr>
+  <tr><td>Surfaces</td><td>2 surfaces (HUD/Panel is one, Main Window)</td><td>HUD morphs into panel — same window. Notification eliminated.</td></tr>
+  <tr><td>HUD expansion</td><td>Single morphing shape</td><td>Pill becomes card becomes panel. One continuous element.</td></tr>
+  <tr><td>Panel structure</td><td>Contextual sections, no tabs (except recording)</td><td>Sections appear/disappear based on state.</td></tr>
+  <tr><td>Recording panel</td><td>Two tabs: Meeting + Insights</td><td>Transcript + scratchpad + proactive vault suggestions</td></tr>
+  <tr><td>Recording button</td><td>Pause (not mute)</td><td>Mute is platform-specific. Pause stops all transcription.</td></tr>
+  <tr><td>Quick actions</td><td>Fixed at bottom: Record / Note / Chat</td><td>Always accessible. Icons reinforce core functions.</td></tr>
+  <tr><td>Onboarding</td><td>RPG agent creation + interview</td><td>"Build your chief of staff." Name, avatar, voice, role, work style.</td></tr>
+  <tr><td>Permissions</td><td>Human explanations during agent setup</td><td>"So you can record meetings" not just "grant microphone"</td></tr>
+  <tr><td>Post-onboarding</td><td>Guide to first real action</td><td>Not "you're set" — get them to build/explore/think to show power</td></tr>
+  <tr><td>First app open</td><td>Earned via panel click</td><td>Main window never opens during onboarding</td></tr>
+  <tr><td>Progressive disclosure</td><td>Usage-based, implicit tiers</td><td>No gates. Features introduced when relevant.</td></tr>
+  <tr><td>Insights destination</td><td>Open in vault</td><td>Simpler. App has sharing functionality.</td></tr>
+  <tr><td>Panel minimizable</td><td>Yes, during recording</td><td>HUD pill shows recording status when minimized.</td></tr>
+  <tr><td>Screen share</td><td>HUD + panel hidden</td><td>Privacy for meeting participants.</td></tr>
+  <tr><td>Interview</td><td>Voice or text, skippable</td><td>Agent speaks first. Indi v7.0 principles. No empty prompt box.</td></tr>
+</table>
+
+<hr>
+
+<!-- ================================== -->
+<!-- 7. NOTIFICATION MIGRATION -->
+<!-- ================================== -->
+<h2>7. Notification Window → Eliminated</h2>
+
+<table class="decision-table">
+  <tr><th>Current Notification</th><th>New Home</th></tr>
+  <tr><td>Meeting detected</td><td>HUD: amber status pill → Panel: auto-expands with Record card</td></tr>
+  <tr><td>Voice command result</td><td>HUD: expanded card with response + TTS controls</td></tr>
+  <tr><td>Command approval</td><td>HUD: expanded approval card</td></tr>
+  <tr><td>Upcoming meeting</td><td>HUD: status text "Meeting in 2 min" → Panel: upcoming section</td></tr>
+  <tr><td>Error</td><td>HUD: error pill with retry</td></tr>
+  <tr><td>Info / tool status</td><td>HUD: brief status text (auto-dismiss)</td></tr>
+</table>
+
+<div style="text-align:center;padding:32px 0;opacity:0.2;font-size:12px;">
+  okCOMPUTER Redesign · March 2026 · v1.0
+</div>
+
+</body>
+</html>
