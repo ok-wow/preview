@@ -176,6 +176,7 @@ hr{border:none;border-top:1px solid var(--border-subtle);margin:64px 0;}
     <a href="#onboarding" class="nav-link">Onboarding</a>
     <a href="#progressive" class="nav-link">Tiers</a>
     <a href="#decisions" class="nav-link">Decisions</a>
+    <a href="#window-strategy" class="nav-link">Window Strategy</a>
     <a href="okcomputer-audit.md" class="nav-link">Audit ↗</a>
     <a href="journey-design-spec.md" class="nav-link">Spec ↗</a>
   </div>
@@ -438,6 +439,108 @@ hr{border:none;border-top:1px solid var(--border-subtle);margin:64px 0;}
   <h3 style="margin-top:24px;">Notification Migration</h3>
   <table class="tbl"><tr><th>Current</th><th>New Home</th></tr><tr><td>Meeting detected</td><td>HUD amber pill → Panel auto-expands with Record card</td></tr><tr><td>Voice result</td><td>HUD expanded card + TTS</td></tr><tr><td>Approval</td><td>HUD expanded approval card</td></tr><tr><td>Upcoming</td><td>HUD "Meeting in 2 min" → Panel upcoming</td></tr><tr><td>Error</td><td>HUD error pill with retry</td></tr><tr><td>Info</td><td>HUD brief status (auto-dismiss)</td></tr></table>
 </section>
+
+<hr>
+
+<section id="window-strategy">
+  <h2>Window Strategy: How HUD↔Panel Actually Works</h2>
+  <p class="section-desc" style="max-width:700px;line-height:1.7;">The spec says "HUD and panel are the same window." But the current HUD is an unfocusable, click-through overlay at <code>screen-saver</code> window level — and the panel needs text input, scrolling, and keyboard focus. This section resolves how the morphing behavior works at the Electron level.</p>
+
+  <h3>Current Window Properties</h3>
+  <div class="grid-2" style="margin-bottom:24px;">
+    <div class="card">
+      <div class="card-header">HUD (DictationIndicatorWindow)</div>
+      <div class="card-body" style="font-size:11px;color:var(--text-secondary);line-height:1.8;">
+        <code style="font-size:10px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">focusable: false</code> — cannot receive keyboard input<br>
+        <code style="font-size:10px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">setIgnoreMouseEvents(true, {forward: true})</code> — click-through<br>
+        <code style="font-size:10px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">alwaysOnTop: 'screen-saver'</code> — highest window level<br>
+        <code style="font-size:10px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">transparent: true, hasShadow: false</code><br>
+        400×110px · Bottom-center of screen · Visible on all workspaces + fullscreen
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">Popover (PopoverWindow)</div>
+      <div class="card-body" style="font-size:11px;color:var(--text-secondary);line-height:1.8;">
+        <code style="font-size:10px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">focusable: true</code> — accepts keyboard input on click (NSPanel)<br>
+        <code style="font-size:10px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">vibrancy: 'popover'</code> — native macOS blur<br>
+        <code style="font-size:10px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">alwaysOnTop: 'floating'</code> — lower than screen-saver<br>
+        <code style="font-size:10px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">transparent: true, hasShadow: true</code><br>
+        400×740px · Positioned under tray icon · Uses <code style="font-size:10px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">showInactive()</code>
+      </div>
+    </div>
+  </div>
+
+  <h3>Three Approaches</h3>
+  <div class="grid-3" style="margin-bottom:24px;">
+    <div class="card">
+      <div class="card-header">A: Single Window, Toggle Properties</div>
+      <div class="card-body" style="font-size:11px;color:var(--text-secondary);line-height:1.7;">
+        One <code style="font-size:10px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">BrowserWindow</code>. On expand: <code style="font-size:10px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">setFocusable(true)</code>, stop ignoring mouse, resize + animate. Reverse on collapse.
+        <div style="margin-top:8px;">
+          <div style="font-size:10px;color:var(--green-d);margin-bottom:2px;">Pros</div>
+          <div style="font-size:10px;line-height:1.6;">Truest to "one continuous shape." Simplest mental model. Animation is genuinely one element.</div>
+        </div>
+        <div style="margin-top:6px;">
+          <div style="font-size:10px;color:var(--red-d);margin-bottom:2px;">Cons</div>
+          <div style="font-size:10px;line-height:1.6;"><code style="font-size:9px;padding:1px 3px;background:var(--bg-muted);border-radius:3px;">setFocusable()</code> behavior during animation is undocumented. Window level toggle may flash. Vibrancy can't be toggled smoothly.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">B: Two Windows, Coordinated Swap</div>
+      <div class="card-body" style="font-size:11px;color:var(--text-secondary);line-height:1.7;">
+        Keep HUD overlay + panel window. On expand: HUD animates to panel size, then swaps to panel window at same bounds in &lt;16ms. Reverse on collapse.
+        <div style="margin-top:8px;">
+          <div style="font-size:10px;color:var(--green-d);margin-bottom:2px;">Pros</div>
+          <div style="font-size:10px;line-height:1.6;">Each window keeps native properties. Vibrancy works natively. Proven pattern (current arch has both).</div>
+        </div>
+        <div style="margin-top:6px;">
+          <div style="font-size:10px;color:var(--red-d);margin-bottom:2px;">Cons</div>
+          <div style="font-size:10px;line-height:1.6;">Swap moment must be imperceptible. Two renderers = more memory + IPC. State sync between windows. Technically a visual lie.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="border:1px solid rgba(102,220,126,0.3);">
+      <div class="card-header" style="color:var(--green-d);">C: Single Focusable Panel at Bottom ★</div>
+      <div class="card-body" style="font-size:11px;color:var(--text-secondary);line-height:1.7;">
+        Eliminate unfocusable HUD. One always-focusable panel at bottom. Dormant state uses <code style="font-size:10px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">setIgnoreMouseEvents(true, {forward})</code>. On interaction: stop ignoring mouse, expand.
+        <div style="margin-top:8px;">
+          <div style="font-size:10px;color:var(--green-d);margin-bottom:2px;">Pros</div>
+          <div style="font-size:10px;line-height:1.6;">Genuinely one window. No <code style="font-size:9px;padding:1px 3px;background:var(--bg-muted);border-radius:3px;">setFocusable</code> toggling. <code style="font-size:9px;padding:1px 3px;background:var(--bg-muted);border-radius:3px;">setIgnoreMouseEvents</code> already proven in codebase. Vibrancy always available. Cleanest architecture.</div>
+        </div>
+        <div style="margin-top:6px;">
+          <div style="font-size:10px;color:var(--red-d);margin-bottom:2px;">Cons</div>
+          <div style="font-size:10px;line-height:1.6;">Focusable + alwaysOnTop may interfere with other apps. Current HUD uses <code style="font-size:9px;padding:1px 3px;background:var(--bg-muted);border-radius:3px;">screen-saver</code> level because <code style="font-size:9px;padding:1px 3px;background:var(--bg-muted);border-radius:3px;">floating</code> sometimes hides behind fullscreen. Needs prototype to verify.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="co co-p" style="margin-bottom:20px;">
+    <strong>Recommendation: Approach C</strong> — single focusable panel at bottom. It's the simplest architecture that achieves the spec's vision. The codebase already toggles <code style="font-size:11px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">setIgnoreMouseEvents</code> successfully in the current HUD. The main risk (window level on fullscreen spaces) can be validated with a quick prototype. If the window level proves insufficient, fall back to Approach B.<br><br>
+    <strong>Key validation needed:</strong> Does a <code style="font-size:11px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">focusable: true</code> panel with <code style="font-size:11px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">showInactive()</code> and <code style="font-size:11px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">alwaysOnTop: 'floating'</code> remain visible on all macOS spaces including fullscreen apps? If yes → Approach C is confirmed. If no → fall back to Approach B (two coordinated windows).
+  </div>
+
+  <h3>Approach C: Window Lifecycle</h3>
+  <table class="tbl"><tr><th>State</th><th>Window Properties</th><th>Behavior</th></tr>
+    <tr><td>Dormant (pill)</td><td><code style="font-size:10px;">ignoreMouseEvents: true</code>, 56px height</td><td>Click-through everywhere except pill hitbox. <code style="font-size:10px;">showInactive()</code> — never steals focus.</td></tr>
+    <tr><td>Hover → Idle</td><td><code style="font-size:10px;">ignoreMouseEvents: false</code> on pill area</td><td>Pill interactive. Mouse leave → 300ms timeout → back to dormant.</td></tr>
+    <tr><td>Click → Expanding</td><td>Resize from 56px → ~740px, <code style="font-size:10px;">ignoreMouseEvents: false</code></td><td>CSS animation drives the morph. Window resizes to accommodate. Grows upward from bottom anchor.</td></tr>
+    <tr><td>Panel (expanded)</td><td>Full size, fully interactive, keyboard input works</td><td>NSPanel accepts keyboard on click. Scrollable content. Text inputs work.</td></tr>
+    <tr><td>Collapse</td><td>Resize back to 56px, <code style="font-size:10px;">ignoreMouseEvents: true</code></td><td>CSS animation reverses. Returns to dormant pill.</td></tr>
+    <tr><td>Active (dictation)</td><td><code style="font-size:10px;">ignoreMouseEvents: true</code> except pill</td><td>Waveform bars animate. Background click-through. Size: ~80px.</td></tr>
+  </table>
+
+  <h3 style="margin-top:24px;">Open Questions</h3>
+  <table class="tbl"><tr><th>Question</th><th>Impact</th><th>How to Resolve</th></tr>
+    <tr><td>Does <code style="font-size:10px;">floating</code> level stay visible over fullscreen apps?</td><td>If no → must use Approach B or find a middle window level</td><td>Build prototype, test on macOS 14+</td></tr>
+    <tr><td>Does <code style="font-size:10px;">showInactive()</code> + resize cause focus steal?</td><td>If yes → expanding panel could yank user out of their app</td><td>Test with active text editor + expand trigger</td></tr>
+    <tr><td>Can vibrancy be applied to a transparent window?</td><td>If no → panel won't have native blur backdrop</td><td>Test <code style="font-size:10px;">vibrancy: 'popover'</code> on the single window</td></tr>
+    <tr><td>Does <code style="font-size:10px;">setContentProtection</code> work during resize animation?</td><td>Brief flash could leak content to screen share</td><td>Test during active screen share</td></tr>
+  </table>
+</section>
+
+<hr>
 
 <div style="text-align:center;padding:28px 0;color:var(--text-muted);font-size:11px;">
   okCOMPUTER Redesign · March 2026 · v1.0<br>
