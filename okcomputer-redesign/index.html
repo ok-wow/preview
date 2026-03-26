@@ -350,6 +350,22 @@ hr{border:none;border-top:1px solid var(--border-subtle);margin:64px 0;}
 
   <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 
+  <h3>Rollover Tooltips</h3>
+  <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:12px;line-height:1.6;">Tooltips teach the interaction model progressively. Users discover shortcuts by hovering, not by reading onboarding screens. Tooltips should feel like hints, not instructions — brief, contextual, and only shown when the user is already engaged with the element.</p>
+
+  <table class="tbl" style="margin-bottom:8px;">
+    <tr><th>HUD State</th><th>Tooltip on Hover</th></tr>
+    <tr><td>Dormant pill</td><td>Click or hold <code style="font-size:11px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">fn</code> to start dictating</td></tr>
+    <tr><td>Idle (revealed)</td><td>Click to open panel · Double-click for app</td></tr>
+    <tr><td>Active (listening)</td><td>Release <code style="font-size:11px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">fn</code> to send · <code style="font-size:11px;padding:1px 4px;background:var(--bg-muted);border-radius:3px;">esc</code> to cancel</td></tr>
+    <tr><td>Expanded (response)</td><td>Click to interact · Auto-hides in [N]s</td></tr>
+    <tr><td>Expanded (approval)</td><td>Action required — approve or deny</td></tr>
+    <tr><td>Expanded (meeting detected)</td><td>Click Record to start · Dismiss to ignore</td></tr>
+    <tr><td>Recording pill</td><td>Click to expand controls</td></tr>
+  </table>
+
+  <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:16px;line-height:1.6;"><strong style="color:var(--text-secondary);">Tooltip behavior:</strong> Appears after 500ms hover delay (not instant — avoids flicker during casual mouse movement). Positioned above the pill. Dismisses on mouse leave or any interaction. Uses the same glass surface style as the HUD itself.</p>
+
   <h3>Click Interactions</h3>
   <table class="tbl"><tr><th>State</th><th>Single Click</th><th>Double Click</th><th>Long Press</th></tr><tr><td>Dormant</td><td>Re-show last or expand panel</td><td>Open main window</td><td>Reposition</td></tr><tr><td>Idle</td><td>Expand to panel</td><td>Open main window</td><td>Reposition</td></tr><tr><td>Active</td><td>Click-through</td><td>—</td><td>—</td></tr><tr><td>Expanded</td><td>Interact with content</td><td>—</td><td>—</td></tr><tr><td>Recording</td><td>Expand controls</td><td>Open main window</td><td>Reposition</td></tr></table>
 </section>
